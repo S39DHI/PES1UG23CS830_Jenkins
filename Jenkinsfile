@@ -2,11 +2,19 @@ pipeline {
     agent any
 
     stages {
+        stage('Clone repository') {
+            steps {
+                checkout([$class: 'GitSCM',
+                branches: [[name: '*/main']],
+                userRemoteConfigs: [[url: 'git@github.com:S39DHI/PES1UG23CS830_Jenkins.git']]])
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
-                    echo "Building the C++ program..."
-                    sh 'g++ -o hello_exec main/hello.cpp'
+                    echo "🛠️ [PES1UG23CS830] Compiling C++ program..."
+                    sh 'g++ main/main.cpp -o output'
                 }
             }
         }
@@ -14,8 +22,9 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    echo "Running the compiled C++ program..."
-                    sh './hello_exec'
+                    echo "✅ [PES1UG23CS830] Running the compiled program..."
+                    sh 'chmod +x output'
+                    sh './output'
                 }
             }
         }
@@ -23,7 +32,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    echo "Deployment Step - Placeholder (Modify as needed)"
+                    echo "🚀 [PES1UG23CS830] Deployment Step - Modify as needed"
                 }
             }
         }
@@ -32,7 +41,7 @@ pipeline {
     post {
         failure {
             script {
-                echo "⚠️ Pipeline failed! Check the logs for errors."
+                echo "❌ [PES1UG23CS830] Pipeline failed! Check logs for errors."
             }
         }
     }
