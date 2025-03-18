@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "🛠️ [PES1UG23CS830] Compiling C++ program..."
-                    sh 'g++ main/main.cpp -o output'
+                    sh 'g++ main/hello.cpp -o output'
                 }
             }
         }
